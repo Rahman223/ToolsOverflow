@@ -1,0 +1,35 @@
+
+
+.container{
+    height: 100%;
+    align-content: center;
+    }
+
+    .card{
+        height: 400px;
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 500px;
+
+        }
+
+    .formInput{
+        border-radius: 15px;
+        border-color: black;
+    }
+
+    .loginButton {
+        border-radius: 15px;
+        color: white;
+        background-color: black;
+        width: 160px;
+        height: 40px;
+    }
+
+    .links{
+        color: white;
+        }
+        
+        .links a{
+        margin-left: 4px;
+        }

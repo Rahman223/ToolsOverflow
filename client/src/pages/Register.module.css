@@ -1,0 +1,41 @@
+.profilePic {
+    object-fit: cover;
+    width: 200px;
+    height: 200px; 
+    border-radius: 50%;
+    border: 5px solid #000000;
+    background-color: black;
+}
+
+.profilePic:hover{
+cursor: pointer;
+border-color: #12df1c;
+transform: scale(1.05);
+}
+
+.profileDiv{
+    color: rgb(0, 0, 0);
+}
+
+.card{
+    height: auto;
+    margin-top: auto;
+    margin-bottom: 10px;
+    width: 800px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0) !important;
+    border-style: solid;
+    }
+
+.formInput{
+    border-radius: 15px;
+    border-color: black;
+}
+
+.registerButton {
+    border-radius: 15px;
+    color: white;
+    background-color: black;
+    width: 160px;
+    height: 40px;
+}

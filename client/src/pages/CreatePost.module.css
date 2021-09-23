@@ -1,0 +1,36 @@
+.formInput{
+    border-radius: 15px;
+    border-color: black;
+}
+
+.card{
+    height: auto;
+    margin-top: auto;
+    margin-bottom: 10px;
+    width: 900px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0) !important;
+    border-style: solid;
+    }
+
+.postDesc{
+    height: 200px  !important;
+}
+
+.createButton{
+    border-radius: 15px;
+    color: white;
+    background-color: black;
+    width: 160px;
+    height: 40px;
+}
+
+.dummyMap{
+    height: 400px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 10px;
+    width: 900px;
+    margin: 0 auto;
+    
+}

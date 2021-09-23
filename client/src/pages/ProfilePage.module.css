@@ -1,0 +1,23 @@
+.profilePic {
+    object-fit: cover;
+    width: 200px;
+    height: 200px; 
+    border-radius: 50%;
+    background-color: black;
+    border-color: black;
+    border-style: solid;
+}
+
+
+.profileInfo{
+    background-color: rgba(0,0,0,0.7) !important;
+}
+
+.card{
+    height: 500px;
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+}
