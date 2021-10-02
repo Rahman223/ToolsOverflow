@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import loginFormCSS from './Login.module.css'
+import auth from '../services/auth';
 
 function LoginForm(props){
     return(
@@ -62,20 +63,20 @@ class LogIn extends React.Component {
     handleLogIn(e){
         e.preventDefault()
         let user = e.target.userName.value; 
-        let pass = e.target.password.value;
+        let pass = e.target.Password.value;
 
         this.setState({
             userName : user,
             password : pass
         })
 
-        // auth.authenticate(user, pass)
-        // .then(user => {
-        //     this.setState({redirect : true})
-        // })
-        // .catch(err => {
-        //     this.setState({failed: true})
-        // })
+        auth.authenticate(user, pass)
+        .then(user => {
+            this.setState({redirect : true})
+        })
+        .catch(err => {
+            this.setState({failed: true})
+        })
     }
 
     render(){

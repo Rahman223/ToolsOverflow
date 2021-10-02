@@ -10,7 +10,7 @@ class PostsListPage extends React.Component {
   }
 
   componentDidMount() {
-    fetch("/api/posts")
+    fetch("/api/posts/Listed")
       .then(res => res.json())
       .then(posts => {
         this.setState({

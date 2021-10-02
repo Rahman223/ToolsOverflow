@@ -3,12 +3,13 @@ import { Redirect } from 'react-router-dom';
 
 // import CreatePostCSS from './CreatePost.module.css'
 // import Helmet from 'react-helmet'
-// import firebase from '../firebase.js';
+import firebaseApp from '../firebase.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 // import Map from '../components/Map';
 import Loading from '../components/Loading';
 import CreatePostCSS from './CreatePost.module.css'
 // import Geocode from "react-geocode";
-// import auth from '../services/auth';
+import auth from '../services/auth';
 // const apiKey = process.env.REACT_APP_MAP_API 
 
 // Geocode.setApiKey(apiKey);
@@ -17,7 +18,7 @@ import CreatePostCSS from './CreatePost.module.css'
 
 
 
-// const bucket = firebase.storage();
+const bucket = getStorage(firebaseApp);
 
 function Form (props) {
     return (
@@ -71,11 +72,11 @@ function Form (props) {
                                         <lable for="catSelector">Choose catagories for the tool</lable>
                                         <select class="form-select" multiple  size="4"  id="catSelector">
                                             <option selected>Open this select menu</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option value="one">One</option>
+                                            <option value="two">Two</option>
+                                            <option value="three">Three</option>
+                                            <option value="two">Two</option>
+                                            <option value="three">Three</option>
                                         </select>
                                         <p className="fs-6 lh-1 mt-1">Hold down Ctrl (windows) or Command (Mac) to select multiple options.</p>
                                     </div>
@@ -110,7 +111,7 @@ class CreatePost extends React.Component {
                             zip : " ",
                             postDesc : " ",
                             link: " ",
-                            // user: auth.user,
+                            user: auth.user,
                             streetAddress: " ",
                             catNames: [],
                             apartment: ""
@@ -195,7 +196,9 @@ class CreatePost extends React.Component {
         e.preventDefault();
         let postTitle = e.target.postTitle.value;
         // let lat = e.target.lat.value;
+        let lat = 1231767612;
         // let lng = e.target.long.value;
+        let lng = 1237621371
         let city = e.target.city.value;
         let state = e.target.state.value;
         let zipCode = e.target.zipCode.value;
@@ -205,74 +208,77 @@ class CreatePost extends React.Component {
         let catNames = Array.from(e.target.catSelector.selectedOptions, option => option.value);
         let apartment = e.target.apt.value;
 
-        this.setState(prevState => {
-            let dataObj = { ...prevState.dataObj };
-            dataObj.postTitle = postTitle;
-            // dataObj.lat = lat;
-            // dataObj.lng = lng;
-            dataObj.city = city;
-            dataObj.state = state;
-            dataObj.zip = zipCode;
-            dataObj.postDesc = postDesc;
-            // dataObj.link = url;
-            dataObj.streetAddress = streetAddress;
-            dataObj.catNames = catNames;
-            dataObj.apartment = apartment;
+        // this.setState(prevState => {
+        //     let dataObj = { ...prevState.dataObj };
+        //     dataObj.postTitle = postTitle;
+        //     // dataObj.lat = lat;
+        //     // dataObj.lng = lng;
+        //     dataObj.city = city;
+        //     dataObj.state = state;
+        //     dataObj.zip = zipCode;
+        //     dataObj.postDesc = postDesc;
+        //     // dataObj.link = url;
+        //     dataObj.streetAddress = streetAddress;
+        //     dataObj.catNames = catNames;
+        //     dataObj.apartment = apartment;
 
-            return {dataObj}
-        })
+        //     return {dataObj}
+        // })
 
         // const uploadTask = bucket.ref(`images/${file.name}`).put(file);
-        // uploadTask.on(
-        //     "state_changed",
-        //     snapshot =>{},
-        //     error =>{
-        //         console.log(error);
-        //     },
-        //     () => {
-        //         bucket
-        //             .ref("images")
-        //             .child(file.name)
-        //             .getDownloadURL()
-        //             .then(url => {
-        //                 console.log("Url:", url);
+        const storageRef = ref(bucket, 'images/'+file.name);
+        const uploadTask = uploadBytesResumable(storageRef, file)
+        uploadTask.on(
+            "state_changed",
+            snapshot =>{},
+            error =>{
+                console.log(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref)
+                .then(url =>{
+                    console.log("Url:", url);
 
-        //                 this.setState(prevState => {
-        //                     let dataObj = { ...prevState.dataObj };
-        //                     dataObj.title = title;
-        //                     dataObj.lat = lat;
-        //                     dataObj.lng = lng;
-        //                     dataObj.city = city;
-        //                     dataObj.state = state;
-        //                     dataObj.zip = zipCode;
-        //                     dataObj.body = body;
-        //                     dataObj.link = url;
-        //                     dataObj.streetAddress = streetAddress;
+                        this.setState(prevState => {
+                            let dataObj = { ...prevState.dataObj };
+                            dataObj.postTitle = postTitle;
+                            dataObj.lat = lat;
+                            dataObj.lng = lng;
+                            dataObj.city = city;
+                            dataObj.state = state;
+                            dataObj.zip = zipCode;
+                            dataObj.postDesc = postDesc;
+                            dataObj.catNames = catNames;
+                            dataObj.link = url;
+                            dataObj.streetAddress = streetAddress;
+                            dataObj.apartment = apartment;
                 
-        //                     return {dataObj}
-        //                 })
+                            return {dataObj}
+                        })
 
-        //                 // console.log(this.state.dataObj);
+                        // console.log(this.state.dataObj);
 
-        //                 fetch('/api/posts', {
-        //                     method: 'POST',
-        //                     headers: {
-        //                         'Content-Type': 'application/json',
-        //                     },
-        //                     body: JSON.stringify(this.state.dataObj),
-        //                 })
-        //                 .then(response => response.json())
-        //                 .then(data => {
-        //                     console.log('Success:', data);
-        //                     this.setState({success: true})
-        //                 })
-        //                 .catch(error => {
-        //                     console.log('Error', error);
-        //                 });
+                        fetch('/api/posts', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(this.state.dataObj),
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Success:', data);
+                            this.setState({success: true})
+                        })
+                        .catch(error => {
+                            console.log('Error', error);
+                        });
+                })
+                        
 
-        //             })
-        //     }
-        // )
+
+            }
+        )
     }
 
     onLocationChange(lat, lng){

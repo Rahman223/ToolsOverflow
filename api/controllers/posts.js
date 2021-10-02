@@ -80,7 +80,7 @@ router.post('/', passport.isAuthenticated(), async (req, res) => {
           let location = await Location.findOrCreate({where: {lat: parseFloat(content.lat), lng: parseFloat(content.lng)}, defaults: {state: content.state, city: content.city, zipCode: content.zip, streetAddress: content.streetAddress, apartment: content.apartment}})
           // console.log(location)
           resArr.push(location)
-          let post = await Post.create({postDesc: content.postDesc, postTitle: content.postTitle, locationId: location[0].id,  postStatus: "Listed", fkUserName: content.userName})
+          let post = await Post.create({postDesc: content.postDesc, postTitle: content.postTitle, locationId: location[0].id,  postStatus: "Listed", fkUserName: content.user.userName})
           resArr.push(post)
 
           for(let i=0; i<content.catNames.length; i++){
