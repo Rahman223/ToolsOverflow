@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
 
       //this will add locationId to User
       //Instances of Location will get the accessors getUser and setUser.
-      models.Location.hasMany(models.User)
+    //   models.Location.hasMany(models.User)
       
     };
   

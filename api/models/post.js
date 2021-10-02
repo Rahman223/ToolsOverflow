@@ -17,6 +17,16 @@ module.exports = (sequelize, DataTypes) => {
 
     postStatus: {
       type: DataTypes.STRING,
+    },
+
+    pickedUp: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+
+    returned: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
 
 

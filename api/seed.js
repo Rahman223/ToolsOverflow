@@ -65,7 +65,6 @@ const Users = [
     fName: "Otes",
     lName: "Keson",
     profilePic: "https://firebasestorage.googleapis.com/v0/b/travelers-log.appspot.com/o/images%2F27276711443_51746feb4c_c.jpeg?alt=media&token=48da388b-5b8c-4754-b1cb-92f48304343f",
-    locationId: 1,
   },
   {
     userName: "hpendry1",
@@ -74,7 +73,6 @@ const Users = [
     fName: "Hannis",
     lName: "Pendry",
     profilePic: "https://firebasestorage.googleapis.com/v0/b/travelers-log.appspot.com/o/images%2FSweet-Images-For-Whatsapp-Profile-Pictures-DP-Photos-Download.jpeg?alt=media&token=d63a669e-aa4f-4533-95ed-5d129fb04563",
-    locationId: 2,
   },
   {
     userName: "tlawtey2",
@@ -83,7 +81,6 @@ const Users = [
     fName: "Tresa",
     lName: "Lawtey",
     profilePic: "https://firebasestorage.googleapis.com/v0/b/travelers-log.appspot.com/o/images%2Fcat_profile_196806.jpeg?alt=media&token=226d40ba-c1b8-4df3-ba14-f586f3c74bae",
-    locationId: 3,
   },
   {
     userName: "vmeagh3",
@@ -92,7 +89,6 @@ const Users = [
     fName: "Vivianna",
     lName: "Meagh",
     profilePic: "https://firebasestorage.googleapis.com/v0/b/travelers-log.appspot.com/o/images%2Fmona-lisa.jpeg?alt=media&token=4a820b95-ad70-499d-b77f-fc117aaf8b3a",
-    locationId: 4,
   },
   {
     userName: "fsegebrecht4",
@@ -101,7 +97,6 @@ const Users = [
     fName: "Florinda",
     lName: "Segebrecht",
     profilePic: "https://firebasestorage.googleapis.com/v0/b/travelers-log.appspot.com/o/images%2Fv0caqchbtn741.jpeg?alt=media&token=5c2295c0-19c3-4d34-872f-bdf55b5be0ae",
-    locationId: 5,
   },
 ];
 
@@ -128,7 +123,7 @@ const Posts = [
   
       postTitle: "Awesome camping area on the mountains of New Jersey (Fake Data)",
       postDesc: "Aliquam erat volutpat. In congue. Etiam justo. Etiam pretium iaculis justo.",
-      postStatus: "borrowed",
+      postStatus: "Borrowed",
       locationId: 2,
     //   fkUserName:"tlawtey2",
     //   borrowerId: "vmeagh3",
@@ -137,7 +132,7 @@ const Posts = [
   
       postTitle: "Cool mural in the City of New York (Fake Data)",
       postDesc: "Nullam sit amet turpis elementum ligula",
-      postStatus: "borrowed",
+      postStatus: "Borrowed",
       locationId: 5,
     //   fkUserName:"vmeagh3",
     //   borrowerId: "fsegebrecht4",
@@ -146,7 +141,7 @@ const Posts = [
   
       postTitle: "Cool little hidden resturant (Fake Data)",
       postDesc: "Morbi ut odio. Cras mi pede, malesuada in",
-      postStatus: "returned",
+      postStatus: "Returned",
       locationId: 4,
     //   fkUserName:"fsegebrecht4",
     //   borrowerId: "okeson0",

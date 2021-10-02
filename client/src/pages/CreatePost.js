@@ -28,7 +28,7 @@ function Form (props) {
                         <div className="card-body">
                             <form onSubmit={props.onSubmit} className="row g-3">
                                 <div className="form-floating col-md-10">
-                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="streetAdd" placeholder="Street Address"/>
+                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="streetAddress" placeholder="Street Address"/>
                                     <label for="streetAdd">Street Address</label>
                                 </div>
 
@@ -53,7 +53,7 @@ function Form (props) {
                                 </div>
 
                                 <div className="form-floating col-md-12">
-                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="title" placeholder="Post Title"/>
+                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="postTitle" placeholder="Post Title"/>
                                     <label for="title">Post Title</label>
                                 </div>
 
@@ -63,11 +63,25 @@ function Form (props) {
                                 </div>
 
                                 <div className="col-md-4">
-                                    <div className="form-group mt-4">
+                                    <div className="form-group">
                                         <input type="file" className={CreatePostCSS.picInput}  id="photoAttachment" accept="image/*" required/>
                                     </div>
 
-                                    <div className={`form-group mt-5 ms-auto me-5`}>
+                                    <div className="form-group mt-2">
+                                        <lable for="catSelector">Choose catagories for the tool</lable>
+                                        <select class="form-select" multiple  size="4"  id="catSelector">
+                                            <option selected>Open this select menu</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                        <p className="fs-6 lh-1 mt-1">Hold down Ctrl (windows) or Command (Mac) to select multiple options.</p>
+                                    </div>
+                                    
+
+                                    <div className={`form-group  ms-auto me-5`}>
                                         <input type="submit" value="Create Post" className={`btn float-end ${CreatePostCSS.createButton}`} />
                                     </div>
 
@@ -90,21 +104,23 @@ class CreatePost extends React.Component {
         this.state ={
             isCancle : false,
             success : false,
-            dataObj :  {    title : " ",
+            dataObj :  {    postTitle : " ",
                             city : " ",
                             state : " ",
                             zip : " ",
-                            body : " ",
+                            postDesc : " ",
                             link: " ",
                             // user: auth.user,
-                            streetAddress: " "
+                            streetAddress: " ",
+                            catNames: [],
+                            apartment: ""
                         }, 
         };
 
 
-    // this.handleCancle = this.handleCancle.bind(this);
-    // this.handleSubmit= this.handleSubmit.bind(this);
-    // this.onLocationChange=this.onLocationChange.bind(this);
+    this.handleCancle = this.handleCancle.bind(this);
+    this.handleSubmit= this.handleSubmit.bind(this);
+    this.onLocationChange=this.onLocationChange.bind(this);
     }
 
     // reverseGeoCoding(lat, lng){
@@ -175,81 +191,100 @@ class CreatePost extends React.Component {
     //       })
     // }
 
-    // handleSubmit(e){
-    //     e.preventDefault();
-    //     let title = e.target.postTitle.value;
-    //     let lat = e.target.lat.value;
-    //     let lng = e.target.long.value;
-    //     let city = e.target.city.value;
-    //     let state = e.target.state.value;
-    //     let zipCode = e.target.zipCode.value;
-    //     let body = e.target.body.value;
-    //     let file = e.target.photoAttachment.files[0];
-    //     let streetAddress = e.target.streetAddress.value;
+    handleSubmit(e){
+        e.preventDefault();
+        let postTitle = e.target.postTitle.value;
+        // let lat = e.target.lat.value;
+        // let lng = e.target.long.value;
+        let city = e.target.city.value;
+        let state = e.target.state.value;
+        let zipCode = e.target.zipCode.value;
+        let postDesc = e.target.postDesc.value;
+        let file = e.target.photoAttachment.files[0];
+        let streetAddress = e.target.streetAddress.value;
+        let catNames = Array.from(e.target.catSelector.selectedOptions, option => option.value);
+        let apartment = e.target.apt.value;
 
-    //     const uploadTask = bucket.ref(`images/${file.name}`).put(file);
-    //     uploadTask.on(
-    //         "state_changed",
-    //         snapshot =>{},
-    //         error =>{
-    //             console.log(error);
-    //         },
-    //         () => {
-    //             bucket
-    //                 .ref("images")
-    //                 .child(file.name)
-    //                 .getDownloadURL()
-    //                 .then(url => {
-    //                     console.log("Url:", url);
+        this.setState(prevState => {
+            let dataObj = { ...prevState.dataObj };
+            dataObj.postTitle = postTitle;
+            // dataObj.lat = lat;
+            // dataObj.lng = lng;
+            dataObj.city = city;
+            dataObj.state = state;
+            dataObj.zip = zipCode;
+            dataObj.postDesc = postDesc;
+            // dataObj.link = url;
+            dataObj.streetAddress = streetAddress;
+            dataObj.catNames = catNames;
+            dataObj.apartment = apartment;
 
-    //                     this.setState(prevState => {
-    //                         let dataObj = { ...prevState.dataObj };
-    //                         dataObj.title = title;
-    //                         dataObj.lat = lat;
-    //                         dataObj.lng = lng;
-    //                         dataObj.city = city;
-    //                         dataObj.state = state;
-    //                         dataObj.zip = zipCode;
-    //                         dataObj.body = body;
-    //                         dataObj.link = url;
-    //                         dataObj.streetAddress = streetAddress;
+            return {dataObj}
+        })
+
+        // const uploadTask = bucket.ref(`images/${file.name}`).put(file);
+        // uploadTask.on(
+        //     "state_changed",
+        //     snapshot =>{},
+        //     error =>{
+        //         console.log(error);
+        //     },
+        //     () => {
+        //         bucket
+        //             .ref("images")
+        //             .child(file.name)
+        //             .getDownloadURL()
+        //             .then(url => {
+        //                 console.log("Url:", url);
+
+        //                 this.setState(prevState => {
+        //                     let dataObj = { ...prevState.dataObj };
+        //                     dataObj.title = title;
+        //                     dataObj.lat = lat;
+        //                     dataObj.lng = lng;
+        //                     dataObj.city = city;
+        //                     dataObj.state = state;
+        //                     dataObj.zip = zipCode;
+        //                     dataObj.body = body;
+        //                     dataObj.link = url;
+        //                     dataObj.streetAddress = streetAddress;
                 
-    //                         return {dataObj}
-    //                     })
+        //                     return {dataObj}
+        //                 })
 
-    //                     // console.log(this.state.dataObj);
+        //                 // console.log(this.state.dataObj);
 
-    //                     fetch('/api/posts', {
-    //                         method: 'POST',
-    //                         headers: {
-    //                             'Content-Type': 'application/json',
-    //                         },
-    //                         body: JSON.stringify(this.state.dataObj),
-    //                     })
-    //                     .then(response => response.json())
-    //                     .then(data => {
-    //                         console.log('Success:', data);
-    //                         this.setState({success: true})
-    //                     })
-    //                     .catch(error => {
-    //                         console.log('Error', error);
-    //                     });
+        //                 fetch('/api/posts', {
+        //                     method: 'POST',
+        //                     headers: {
+        //                         'Content-Type': 'application/json',
+        //                     },
+        //                     body: JSON.stringify(this.state.dataObj),
+        //                 })
+        //                 .then(response => response.json())
+        //                 .then(data => {
+        //                     console.log('Success:', data);
+        //                     this.setState({success: true})
+        //                 })
+        //                 .catch(error => {
+        //                     console.log('Error', error);
+        //                 });
 
-    //                 })
-    //         }
-    //     )
-    // }
+        //             })
+        //     }
+        // )
+    }
 
-    // onLocationChange(lat, lng){
-    //     this.reverseGeoCoding(lat, lng)
-    // }
+    onLocationChange(lat, lng){
+        this.reverseGeoCoding(lat, lng)
+    }
 
-    // handleCancle(e){
-    //     e.preventDefault();
-    //     this.setState({
-    //         isCancle : true
-    //     })
-    // }
+    handleCancle(e){
+        e.preventDefault();
+        this.setState({
+            isCancle : true
+        })
+    }
 
     render(){
         if(this.state.success) return <Redirect to="/" />;
@@ -271,7 +306,7 @@ class CreatePost extends React.Component {
                     Dummy Map Component
                 </div>
 
-                <Form/>
+                <Form onSubmit={this.handleSubmit}/>
             </div>
        );
         

@@ -33,8 +33,8 @@ async function associateBorrowerToPosts(){
     const usr2 = await User.findByPk("vmeagh3")
     // console.log(usr)
 
-    const posts = await Post.findAll({where: {id : {[Op.in] : [1,3,5]} } }) 
-    const posts2 = await Post.findAll({where: {id : {[Op.in] : [2,4]} } })
+    const posts = await Post.findAll({where: {id : {[Op.in] : [3,5]} } }) 
+    const posts2 = await Post.findAll({where: {id : {[Op.in] : [4]} } })
     
     posts.forEach(post => {
         console.log(post)

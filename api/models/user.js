@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
     class User extends Model {}
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true
         },
 
-        // passwordHash: { type: DataTypes.STRING },
+        passwordHash: { type: DataTypes.STRING },
 
         password: {
             type: DataTypes.VIRTUAL,
@@ -51,11 +51,11 @@ module.exports = (sequelize, DataTypes) => {
     });
   
     User.associate = (models) => {
-      // associations can be defined here
+      // associations are defined here
 
-      //this will add locationId to user
-      //Instances of User will get the accessors getLocation and setLocation.
-      models.User.belongsTo(models.Location)
+    //   //this will add locationId to user
+    //   //Instances of User will get the accessors getLocation and setLocation.
+    //   models.User.belongsTo(models.Location)
 
       //this will add userName to Post 
       //Instances of User will get the accessors getPosts and setPosts.
@@ -67,11 +67,11 @@ module.exports = (sequelize, DataTypes) => {
       
     };
 
-    // User.beforeSave((user, options) => {
-    //     if(user.password) {
-    //       user.passwordHash = bcrypt.hashSync(user.password, 5);
-    //     }
-    // });
+    User.beforeSave((user, options) => {
+        if(user.password) {
+          user.passwordHash = bcrypt.hashSync(user.password, 5);
+        }
+    });
   
     return User;
   };
