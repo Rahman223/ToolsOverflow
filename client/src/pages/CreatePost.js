@@ -68,9 +68,9 @@ function Form (props) {
                                         <input type="file" className={CreatePostCSS.picInput}  id="photoAttachment" accept="image/*" required/>
                                     </div>
 
-                                    <div className="form-group mt-2">
-                                        <lable for="catSelector">Choose catagories for the tool</lable>
-                                        <select class="form-select" multiple  size="4"  id="catSelector">
+                                    <div className={`form-group mt-4`}>
+                                        <lable for="catSelector"><u>Choose catagories for the tool</u></lable>
+                                        <select className={`form-select mt-1 ${CreatePostCSS.formInput}`} multiple  size="2"  id="catSelector">
                                             <option selected>Open this select menu</option>
                                             <option value="one">One</option>
                                             <option value="two">Two</option>
@@ -82,7 +82,7 @@ function Form (props) {
                                     </div>
                                     
 
-                                    <div className={`form-group  ms-auto me-5`}>
+                                    <div className={`form-group  ms-auto me-5 pt-3`}>
                                         <input type="submit" value="Create Post" className={`btn float-end ${CreatePostCSS.createButton}`} />
                                     </div>
 

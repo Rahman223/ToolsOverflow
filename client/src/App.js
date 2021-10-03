@@ -13,6 +13,8 @@ import AboutUsPage from './pages/AboutUsPage';
 import LogIn from './pages/LoginPage';
 import Register from './pages/RegisterPage';
 import CreatePost from './pages/CreatePost';
+import PrivateRoute from './components/PrivateRoute';
+import AuthButton from './components/AuthButton';
 
 import './App.css';
 
@@ -37,7 +39,7 @@ function Navigation(props) {
             About Us
           </NavLink>
         </li>
-        <li className="nav-item">
+        {/* <li className="nav-item">
           <NavLink className="nav-link" exact to="/log-in">
             Log In
           </NavLink>
@@ -47,8 +49,9 @@ function Navigation(props) {
           <NavLink className="nav-link" exact to="/Register">
             Register
           </NavLink>
-        </li>
+        </li> */}
       </ul>
+      <AuthButton/>
     </nav>
   );
 }
@@ -62,8 +65,8 @@ class App extends React.Component {
           <div className="container-fluid text-center">
             <div className="row justify-content-center">
               <Switch>
-                <Route path="/posts/new" component={CreatePost} />
-                <Route path="/profile" component={ProfilePage} />
+                <PrivateRoute path="/posts/new" component={CreatePost} />
+                <PrivateRoute path="/profile" component={ProfilePage} />
                 <Route path="/log-in" component={LogIn} />
                 <Route path="/Register" component={Register}/>
                 <Route path="/posts/:id" component={ShowPostPage} />
