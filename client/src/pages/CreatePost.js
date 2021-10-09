@@ -30,37 +30,37 @@ function Form (props) {
                             <form onSubmit={props.onSubmit} className="row g-3">
                                 <div className="form-floating col-md-10">
                                     <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="streetAddress" placeholder="Street Address"/>
-                                    <label for="streetAdd">Street Address</label>
+                                    <label htmlFor="streetAdd">Street Address</label>
                                 </div>
 
                                 <div className="form-floating col-md-2">
                                     <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="zipCode" placeholder="Zip Code"/>
-                                    <label for="zipCode">Zip Code</label>
+                                    <label htmlFor="zipCode">Zip Code</label>
                                 </div>
 
                                 <div className="form-floating col-md-4">
                                     <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="state" placeholder="State"/>
-                                    <label for="state">State</label>
+                                    <label htmlFor="state">State</label>
                                 </div>
 
                                 <div className="form-floating col-md-4">
                                     <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="city" placeholder="city"/>
-                                    <label for="city">City</label>
+                                    <label htmlFor="city">City</label>
                                 </div>
 
                                 <div className="form-floating col-md-4">
                                     <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="apt" placeholder="Apartment"/>
-                                    <label for="apt">Apartment</label>
+                                    <label htmlFor="apt">Apartment</label>
                                 </div>
 
                                 <div className="form-floating col-md-12">
                                     <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="postTitle" placeholder="Post Title"/>
-                                    <label for="title">Post Title</label>
+                                    <label htmlFor="title">Post Title</label>
                                 </div>
 
                                 <div className="form-floating col-md-8">
                                     <textarea id="postDesc" className={`form-control ${CreatePostCSS.formInput} ${CreatePostCSS.postDesc}`} placeholder="Post Description"/>
-                                    <label for="postDesc">Post Description</label>
+                                    <label htmlFor="postDesc">Post Description</label>
                                 </div>
 
                                 <div className="col-md-4">
@@ -69,9 +69,9 @@ function Form (props) {
                                     </div>
 
                                     <div className={`form-group mt-4`}>
-                                        <lable for="catSelector"><u>Choose catagories for the tool</u></lable>
+                                        <label htmlFor="catSelector"><u>Choose categories for the tool</u></label>
                                         <select className={`form-select mt-1 ${CreatePostCSS.formInput}`} multiple  size="2"  id="catSelector">
-                                            <option selected>Open this select menu</option>
+                                            <option defaultValue>Open this select menu</option>
                                             <option value="one">One</option>
                                             <option value="two">Two</option>
                                             <option value="three">Three</option>
@@ -208,24 +208,7 @@ class CreatePost extends React.Component {
         let catNames = Array.from(e.target.catSelector.selectedOptions, option => option.value);
         let apartment = e.target.apt.value;
 
-        // this.setState(prevState => {
-        //     let dataObj = { ...prevState.dataObj };
-        //     dataObj.postTitle = postTitle;
-        //     // dataObj.lat = lat;
-        //     // dataObj.lng = lng;
-        //     dataObj.city = city;
-        //     dataObj.state = state;
-        //     dataObj.zip = zipCode;
-        //     dataObj.postDesc = postDesc;
-        //     // dataObj.link = url;
-        //     dataObj.streetAddress = streetAddress;
-        //     dataObj.catNames = catNames;
-        //     dataObj.apartment = apartment;
-
-        //     return {dataObj}
-        // })
-
-        // const uploadTask = bucket.ref(`images/${file.name}`).put(file);
+       
         const storageRef = ref(bucket, 'images/'+file.name);
         const uploadTask = uploadBytesResumable(storageRef, file)
         uploadTask.on(

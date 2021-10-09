@@ -8,7 +8,8 @@ function AboutUsPage(props) {
     // <div>A little info about us.</div>
     // <MainPostComponent/>
     // <ListingPostComponent/>
-    <BorrowingPostComponent/>
+    // <BorrowingPostComponent/>
+    <div></div>
   );
 }
 

@@ -1,6 +1,12 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import SignUpCSS from './Register.module.css'
+import firebaseApp from '../firebase.js';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+
+
+
+const bucket = getStorage(firebaseApp);
 
 function SignUpForm(props) {
 
@@ -72,7 +78,7 @@ function SignUpForm(props) {
                                 <label for="confirmPass">Confirm Password</label>
                             </div>
 
-                            <div className="form-floating col-md-12">
+                            {/* <div className="form-floating col-md-12">
                                 <input type="text" className={`form-control ${SignUpCSS.formInput}`} id="address" placeholder="Street Address"/>
                                 <label for="address">Street Address</label>
                             </div>
@@ -90,7 +96,7 @@ function SignUpForm(props) {
                             <div className="form-floating col-md-2">
                                 <input type="text" className={`form-control ${SignUpCSS.formInput}`} id="zipCode" placeholder="Zip Code"/>
                                 <label for="zipCode">Zip Code</label>
-                            </div>
+                            </div> */}
 
                             <div className={`form-check mt-4 col-md-5 ms-2`}>
                                 <input className="form-check-input" type="checkbox" value="" id="terms"/>
@@ -115,22 +121,19 @@ class SignUp extends React.Component {
         super(props);
 
         this.state ={
-            isCancle : false,
             success : false,
+            passMatch : true,
             dataObj :
             { email: " ",
               userName: " ",
               password: " ",
               fName: " ",
               lName: " ",
-              birthDate: " ",
               profilePic: "",
-              status: true    
             } 
         }
 
-        // this.handleSubmit= this.handleSubmit.bind(this);
-        // this.handleCancle= this.handleCancle.bind(this);
+        this.handleSubmit= this.handleSubmit.bind(this);
     }
 
     
@@ -139,100 +142,106 @@ class SignUp extends React.Component {
         let email = e.target.email.value;
         let userName = e.target.userName.value;
         let password = e.target.password.value;
+        let confirmPass = e.target.confirmPass.value;
         let fName = e.target.fName.value;
         let lName = e.target.lName.value;
-        let birthDate = e.target.birthDate.value;
+
+
         
+        if(password === confirmPass){
+            if(e.target.file.files[0]){
+                let file = e.target.file.files[0];
+    
+                const storageRef = ref(bucket, 'images/'+file.name);
+                const uploadTask = uploadBytesResumable(storageRef, file)
+    
+                uploadTask.on(
+                    "state_changed",
+                    snapshot =>{},
+                    error =>{
+                        console.log(error);
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref)
+                        .then(url => {
+                            console.log("Url:", url);
 
-    //     if(e.target.file.files[0]){
-    //         let file = e.target.file.files[0];
-
-    //         const uploadTask = bucket.ref(`images/${file.name}`).put(file);
-
-    //         uploadTask.on(
-    //             "state_changed",
-    //             snapshot =>{},
-    //             error =>{
-    //                 console.log(error);
-    //             },
-    //             () => {
-    //                 bucket
-    //                     .ref("images")
-    //                     .child(file.name)
-    //                     .getDownloadURL()
-    //                     .then(url => {
-    //                         console.log("Url:", url);
-
-    //                         this.setState(prevState => {
-    //                             let dataObj = { ...prevState.dataObj };
-    //                             dataObj.email = email;
-    //                             dataObj.userName = userName;
-    //                             dataObj.password = password;
-    //                             dataObj.fName = fName;
-    //                             dataObj.lName = lName;
-    //                             dataObj.birthDate = birthDate;
-    //                             dataObj.profilePic = url;
-    //                             return {dataObj}
-    //                         }, ()=> {
-    //                             this.makePostReq()
-    //                         })
+                            this.setState(prevState => {
+                                let dataObj = { ...prevState.dataObj };
+                                dataObj.email = email;
+                                dataObj.userName = userName;
+                                dataObj.password = password;
+                                dataObj.fName = fName;
+                                dataObj.lName = lName;
+                                dataObj.profilePic = url;
+                                return {dataObj}
+                            }, ()=> {
+                                this.makePostReq()
+                            })
 
                             
 
-    //                     })
-    //             }
-    //         )
-    //     } else {
-    //         let defaultPic = "https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
-    //         this.setState(prevState => {
-    //             let dataObj = { ...prevState.dataObj };
-    //             dataObj.email = email;
-    //             dataObj.userName = userName;
-    //             dataObj.password = password;
-    //             dataObj.fName = fName;
-    //             dataObj.lName = lName;
-    //             dataObj.birthDate = birthDate;
-    //             dataObj.profilePic = defaultPic;
-    //             return {dataObj}
-    //         }, ()=>{
-    //             this.makePostReq()
-    //         })
-    //     }
-    // }
+                        })
+                    }
+                )
+            } else {
+                let defaultPic = "https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg"
+                this.setState(prevState => {
+                    let dataObj = { ...prevState.dataObj };
+                    dataObj.email = email;
+                    dataObj.userName = userName;
+                    dataObj.password = password;
+                    dataObj.fName = fName;
+                    dataObj.lName = lName;
+                    dataObj.profilePic = defaultPic;
+                    return {dataObj}
+                }, ()=>{
+                    this.makePostReq()
+                })
+            }
 
-    // makePostReq(){
-    //     fetch('/api/user', {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify(this.state.dataObj),
-    //     })
-    //     .then(response => {
-    //         if(response.ok){
-    //             console.log("success")
-    //             this.setState({success: true})
-    //         }
-    //     })
-    //     .catch(error => {
-    //         console.log('Error', error);
-    //     });
-    // }
-
-    // handleCancle(e){
-    //     e.preventDefault();
-    //     this.setState({
-    //         isCancle : true
-    //     })
+        }else{
+            this.setState({
+                passMatch : false
+            })
+        }
+    
     }
+
+    makePostReq(){
+        fetch('/api/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(this.state.dataObj),
+        })
+        .then(response => {
+            if(response.ok){
+                console.log("success")
+                this.setState({success: true})
+            }
+        })
+        .catch(error => {
+            console.log('Error', error);
+        });
+    }
+
 
     render(){
         if(this.state.success) return <Redirect to="/log-in" />;
-        if(this.state.isCancle) return  <Redirect to="/" />;
+        let passMatch = this.state.passMatch
+
+        let error =""
+        if(!passMatch){
+            error = <div className="alert alert-danger" role="alert">Password does not match!</div> 
+        }
         return (
+            
             <div>
-                <SignUpForm onSubmit ={this.handleSubmit} OnCancle={this.handleCancle}/>
+                <SignUpForm onSubmit ={this.handleSubmit} err={error}/>
             </div>
+
             
         )
     }

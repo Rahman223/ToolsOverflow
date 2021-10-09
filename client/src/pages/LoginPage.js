@@ -6,7 +6,7 @@ import auth from '../services/auth';
 function LoginForm(props){
     return(
         <div className="container">
-            <div className="d-flex justify-content-center h-100">
+            <div className="d-flex justify-content-center h-100 mb-5">
                 <div className={loginFormCSS.card}>
                     <div className="mt-5 mb-4">
                         <h3>Log In</h3>
@@ -14,17 +14,17 @@ function LoginForm(props){
                     <form onSubmit={props.onSubmit}>
                         <div className="form-floating mb-3">
                             <input type="text" className={`form-control ${loginFormCSS.formInput}`} id="userName" placeholder="Username"/>
-                            <label for="userName">Username</label>
+                            <label htmlFor="userName">Username</label>
                         </div>
 
                         <div className="form-floating">
                             <input type="password" className={`form-control ${loginFormCSS.formInput}`} id="Password" placeholder="Password"/>
-                            <label for="Password">Password</label>
+                            <label htmlFor="Password">Password</label>
                         </div>
 
                         <div className={`form-check mt-4 float-start`}>
                             <input className="form-check-input" type="checkbox" value="" id="rememberMe"/>
-                            <label className="form-check-label" for="rememberMe">Remember me</label>
+                            <label className="form-check-label" htmlFor="rememberMe">Remember me</label>
                         </div>
 
                         <div className={`form-group mt-3`}>
@@ -34,7 +34,7 @@ function LoginForm(props){
 
                     <div className=" mt-5 d-flex flex-column float-start">
                         <div className="mt-5">
-                            Don't have an account?<a href="#">Sign Up</a>
+                            Don't have an account?<a href="#">Register</a>
                         </div>
                         <div className="mt-1">
                             <a className="float-start" href="#">Forgot your password?</a>
@@ -43,6 +43,7 @@ function LoginForm(props){
 
                 </div>
             </div>
+            {props.err}
         </div>
     );
 }

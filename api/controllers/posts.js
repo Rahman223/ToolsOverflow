@@ -20,8 +20,8 @@ const { Post, Location, Media, User, Category} = db;
 
 // ./api/posts/Listed (get)
 //finds all posts in the database that have the property postStatus : "Listed"
-//for each post find the associated media and location instance
-//returns an array of json objects of the format {"post": {post data}, "media": [{media data}], "location": {location data}}
+//for each post find the associated media, location instance and the user 
+//returns an array of json objects of the format {"post": {post data}, "media": [{media data}], "location": {location data}, "user": {user data}}
 router.get('/Listed', async (req,res) => {
 
   const posts = await Post.findAll({where: {postStatus: "Listed"}});
@@ -31,11 +31,13 @@ router.get('/Listed', async (req,res) => {
     const post = posts[i]
     let media = await post.getMedia()
     let location = await post.getLocation()
+    let user = await post.getUser()
     let postMedLocObj= {}
     
     postMedLocObj.post =  post
     postMedLocObj.media = media
     postMedLocObj.location = location
+    postMedLocObj.user = user
     postMedLocArr.push(postMedLocObj)
   
   }
@@ -140,8 +142,9 @@ router.post('/', passport.isAuthenticated(), async (req, res) => {
  
 // })
 
-router.get('/categories', passport.isAuthenticated(), async (req, res)=> {
-  const catNames = req.body.catNames;
+router.get('/categories', async (req, res)=> {
+  // const catNames = req.body.catNames;
+  const catNames = req.query.catNames
 
   try{
 
@@ -167,11 +170,13 @@ router.get('/categories', passport.isAuthenticated(), async (req, res)=> {
       console.log(post)
       let media = await post.getMedia()
       let location = await post.getLocation()
+      let user = await post.getUser()
       let postMedLocObj = {};
 
       postMedLocObj.post = post;
       postMedLocObj.media = media;
       postMedLocObj.location = location
+      postMedLocObj.user = user
       postMedLocArr.push(postMedLocObj)
     }
      
@@ -229,11 +234,12 @@ router.get('/getByUser/:userName', passport.isAuthenticated(), async (req,res) =
   // res.json(user)
   const posts = await user.getPosts();
   // const posts = await Post.findAll({where:{fkUserName : userName}});
+  let postMedLocArr =[]
   if(posts.length === 0){
-    res.sendStatus(404);
+    res.status(404).json(postMedLocArr)
   }
 
-  let postMedLocArr =[]
+  
   for(let i=0; i<posts.length; i++){
     const post = posts[i]
     let media = await post.getMedia()
@@ -266,21 +272,25 @@ router.get('/borrowing/:userName', passport.isAuthenticated(), async (req,res) =
   // res.json(user)
   const posts = await Post.findAll({where: {borrowerId : userName}})
   // const posts = await Post.findAll({where:{fkUserName : userName}});
+  let postMedLocArr =[]
   if(posts.length === 0){
-    res.sendStatus(404);
+    // res.sendStatus(404);
+    res.status(404).json(postMedLocArr)
   }
 
-  let postMedLocArr =[]
+  
   for(let i=0; i<posts.length; i++){
     const post = posts[i]
 
-    if(post.postStatus == "Borrowed"){
+    if(post.postStatus !== "Returned"){
       let media = await post.getMedia()
       let location = await post.getLocation()
+      let user = await post.getUser()
       let postMedLocObj= {}
       
       postMedLocObj.post =  post 
       postMedLocObj.media = media
+      postMedLocObj.user = user
       postMedLocObj.location = location
       postMedLocArr.push(postMedLocObj)
     }
@@ -301,16 +311,17 @@ router.post('/borrow/:userName/:postId', passport.isAuthenticated(), async (req,
 
     const user = await User.findByPk(userName);
     const post = await Post.findByPk(postId);
+
     // console.log(user);
     // console.log(post);
     try{
-      if(post.fkUserName == userName){
+      if(post.fkUserName == userName || post.postStatus !== "Listed"){
         res.sendStatus(405);
       }else{
         user.setPost(post);
         post.postStatus = "Borrowed";
         await post.save();
-        res.sendStatus(200);
+        res.status(200).json(post)
       }
 
     }catch{
@@ -331,8 +342,9 @@ router.post('/pickUp/:postId', passport.isAuthenticated(), async (req, res) =>{
     try{
       if(post.pickedUp == false && post.returned == false){
         post.pickedUp = true;
+        post.postStatus = "Picked Up"
         await post.save();
-        res.sendStatus(200);
+        res.sendStatus(200)
       }else{
         res.sendStatus(405);
       }
