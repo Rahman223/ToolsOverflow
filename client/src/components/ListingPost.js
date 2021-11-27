@@ -1,6 +1,8 @@
 import React from 'react';
 import PostCSS from './Post.module.css'
 import Alert from 'react-bootstrap/Alert'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 class ListingPostComponent extends React.Component{
     constructor(props){
@@ -17,11 +19,12 @@ class ListingPostComponent extends React.Component{
         this.handleReturnedClick = this.handleReturnedClick.bind(this)
     }
 
+
     successAlert(){
         if (this.state.success) {
             return (
               <Alert variant="success" onClose={() => this.setState({success: false})} dismissible>
-                <p>You have indicated that your tool has been returned.</p>
+                <CheckCircleOutlineIcon className="float-start" style={{color: "green", fontSize:"30"}}/> <strong className="float-start ms-4">You have indicated that your tool has been returned.</strong>
               </Alert>
             );
         }else{
@@ -30,17 +33,16 @@ class ListingPostComponent extends React.Component{
     }
 
     notAllowedAlert(){
-
         if (this.state.notAllowed) {
             return (
-                <Alert variant="danger" onClose={() => this.setState({notAllowed: false})} dismissible>
-                <Alert.Heading>Either tool is already returned or it has not been picked up yet, it cannot be marked as returned at the moment.</Alert.Heading>
-                </Alert>
+              <Alert variant="danger" onClose={() => this.setState({notAllowed: false})} dismissible>
+                <WarningAmberIcon className="float-start" style={{color:"red", fontSize: "30" }}/> <strong className="float-start ms-4">Either tool is already returned or it has not been picked up yet, it cannot be marked as returned at the moment.</strong>
+              </Alert>
             );
         }else{
             return <></>
         }
-        
+    
     }
 
     handleReturnedClick(e,id){

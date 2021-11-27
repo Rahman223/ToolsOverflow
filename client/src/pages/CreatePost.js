@@ -71,7 +71,7 @@ function Form (props) {
                                     <div className={`form-group mt-4`}>
                                         <label htmlFor="catSelector"><u>Choose categories for the tool</u></label>
                                         <select className={`form-select mt-1 ${CreatePostCSS.formInput}`} multiple  size="2"  id="catSelector">
-                                            <option defaultValue>Open this select menu</option>
+                                            {/* <option defaultValue>Open this select menu</option> */}
                                             <option value="one">One</option>
                                             <option value="two">Two</option>
                                             <option value="three">Three</option>

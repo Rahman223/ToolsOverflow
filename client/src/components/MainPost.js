@@ -2,6 +2,8 @@ import React from 'react';
 import PostCSS from './Post.module.css'
 import auth from '../services/auth';
 import Alert from 'react-bootstrap/Alert'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 
 class MainPostComponent extends React.Component{
@@ -31,7 +33,7 @@ AlertAuth() {
       return (
           
         <Alert variant="danger" onClose={() => this.setState({unAuth: false})} dismissible>
-            <Alert.Heading>Log in to borrow tools.</Alert.Heading>
+            <WarningAmberIcon className="float-start" style={{color:"red", fontSize: "30" }}/> <strong className="float-start ms-4">Log in to borrow tools.</strong> 
         </Alert>
       );
     }else{
@@ -43,7 +45,7 @@ AlertError(){
     if (this.state.error) {
         return (
           <Alert variant="danger" onClose={() => this.setState({error: false})} dismissible>
-            <Alert.Heading>Tool is either no longer available or it is your own tool</Alert.Heading>
+            <WarningAmberIcon className="float-start" style={{color:"red", fontSize: "30" }}/> <strong className="float-start ms-4">Tool is either no longer available or it is your own tool</strong>
           </Alert>
         );
     }else{
@@ -56,7 +58,7 @@ AlertSuccess(){
     if (this.state.success) {
         return (
           <Alert variant="success" onClose={() => this.setState({success: false})} dismissible>
-            <p>You have successfully borrowed the tool. Visit borrowed section in profile to pick up the tool.</p>
+            <CheckCircleOutlineIcon className="float-start" style={{color: "green", fontSize:"30"}}/> <strong className="float-start ms-4">You have successfully borrowed the tool. Visit borrowings section in your profile to pick up the tool.</strong>
           </Alert>
         );
     }else{

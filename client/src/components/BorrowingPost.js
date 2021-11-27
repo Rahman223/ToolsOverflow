@@ -1,6 +1,8 @@
 import React from 'react';
 import PostCSS from './Post.module.css'
 import Alert from 'react-bootstrap/Alert'
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 
 class BorrowingPostComponent extends React.Component{
@@ -13,16 +15,16 @@ class BorrowingPostComponent extends React.Component{
             notAllowed: false,
             notAllowedAlert: "",
             postStatus: this.props.post.postStatus,
-            // pickedUpStatus: this.props.post.pickedUp,
-            // returnedStatus: this.props.post.returned
+
         }
     }
+
 
     successAlert(){
         if (this.state.success) {
             return (
               <Alert variant="success" onClose={() => this.setState({success: false})} dismissible>
-                <p>You have picked up the tool.</p>
+                <CheckCircleOutlineIcon className="float-start" style={{color: "green", fontSize:"30"}}/> <strong className="float-start ms-4">You have picked up the tool.</strong>
               </Alert>
             );
         }else{
@@ -30,19 +32,21 @@ class BorrowingPostComponent extends React.Component{
         }
     }
 
-    notAllowedAlert(){
 
+    notAllowedAlert(){
         if (this.state.notAllowed) {
             return (
-                <Alert variant="danger" onClose={() => this.setState({notAllowed: false})} dismissible>
-                <Alert.Heading>Either you have already picked up or returned the tool.</Alert.Heading>
-                </Alert>
+              <Alert variant="danger" onClose={() => this.setState({notAllowed: false})} dismissible>
+                <WarningAmberIcon className="float-start" style={{color:"red", fontSize: "30" }}/> <strong className="float-start ms-4">Either you have already picked up or returned the tool.</strong>
+              </Alert>
             );
         }else{
             return <></>
         }
-        
+    
     }
+
+
 
 
     handlePickedUpClick(e,id){
@@ -97,13 +101,6 @@ class BorrowingPostComponent extends React.Component{
 
         let postStatus = this.state.postStatus
 
-        // if(this.state.returnedStatus){
-        //     postStatus = "Returned"
-        // }else if(this.state.pickedUpStatus){
-        //     postStatus = "Picked Up"
-        // }else{
-        //     postStatus = this.state.postStatus
-        // }
 
         return(
             <div className={`card mb-3 ${PostCSS.card} pt-2`}>
