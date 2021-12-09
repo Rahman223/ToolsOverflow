@@ -28,7 +28,7 @@ function ProfilePage(props) {
 
                     <p style={{color: "rgb(2, 141, 2)"}}>Last Name: <span className="text-black">{props.info.lName}</span></p>
 
-                    <p style={{color: "rgb(2, 141, 2)"}}>Email: <span className="text-black">{props.info.email}</span></p>
+                    <p style={{color: "rgb(2, 141, 2)"}} >Email: <span className="text-black">{props.info.email}</span></p>
 
                 </div>
 

@@ -15,13 +15,13 @@ module.exports = (sequelize, DataTypes) => {
 
         password: {
             type: DataTypes.VIRTUAL,
-            validate: {
-                isLongEnough:  (val) => {
-                    if (val.length < 7) {
-                        throw new Error("Please choose a longer password");
-                    }
-                },
-            }
+            // validate: {
+            //     isLongEnough:  (val) => {
+            //         if (val.length < 7) {
+            //             throw new Error("Please choose a longer password");
+            //         }
+            //     },
+            // }
         },
 
         email: {
