@@ -2,6 +2,7 @@ import React from 'react';
 import Loading from '../components/Loading';
 import MainPostComponent from '../components/MainPost';
 import CreatePostCSS from './CreatePost.module.css'
+const toolsCatsData = require('../ToolsCategories.json')
 
 function Form(props){
   return(
@@ -14,11 +15,7 @@ function Form(props){
             <label htmlFor="catSelector"><u>Filter tools by categories.</u></label>
             <select className={`form-select mt-1 ${CreatePostCSS.formInput}`} multiple  size="4"  id="catSelector">
                 <option value="all">Show All</option>
-                <option value="one">One</option>
-                <option value="two">Two</option>
-                <option value="three">Three</option>
-                <option value="two">Two</option>
-                <option value="three">Three</option>
+                {[...props.toolsCats]}
             </select>
             <p className="fs-6 lh-1 mt-1">Hold down Ctrl (windows) or Command (Mac) to select multiple options.</p>
           </div>
@@ -153,10 +150,17 @@ class PostsListPage extends React.Component {
       return <Loading />;
     }
 
+    let toolsCats = toolsCatsData.toolsCategories
+        let toolsOptionsArr =[]
+
+    toolsCats.forEach(category =>{
+        toolsOptionsArr.push(<option value={category}>{category}</option>)
+    })
+
     return (
       <div className="container-fluid text-center">
         <div className="row justify-content-center">
-          <Form onSubmit={this.handleSubmit}/>
+          <Form onSubmit={this.handleSubmit} toolsCats={toolsOptionsArr}/>
           { this.state.posts }
         </div>
       </div>

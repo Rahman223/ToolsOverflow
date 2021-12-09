@@ -20,6 +20,10 @@
     height: 40px;
 }
 
+.button:hover{
+    color: rgb(2, 141, 2) !important;
+}
+
 .postImg{
     margin-top: 10px;
     margin-bottom: 10px;

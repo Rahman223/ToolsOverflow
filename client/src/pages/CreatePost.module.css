@@ -25,6 +25,10 @@
     height: 40px;
 }
 
+.createButton:hover{
+    color: rgb(2, 141, 2) !important;
+}
+
 .dummyMap{
     height: 400px;
     border-color: black;

@@ -43,7 +43,8 @@ function SignUpForm(props) {
                                     <div onClick = {()=> imageUploader.current.click()}>
                                     <img ref={uploadedImage} src="https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg" className={SignUpCSS.profilePic} alt=""/> 
                                     </div>
-                                    Click to upload profile picture
+                                    <span className={SignUpCSS.picMessage}>Click to upload profile picture</span>
+                                    
                                 </div>
                             </div>
                             <div className="form-group col-md-3">

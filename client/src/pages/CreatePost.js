@@ -1,19 +1,21 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-
+import Geocode from "react-geocode";
 // import CreatePostCSS from './CreatePost.module.css'
 // import Helmet from 'react-helmet'
 import firebaseApp from '../firebase.js';
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 // import Map from '../components/Map';
 import Loading from '../components/Loading';
+import MapComp from '../components/MapComp';
 import CreatePostCSS from './CreatePost.module.css'
 // import Geocode from "react-geocode";
 import auth from '../services/auth';
-// const apiKey = process.env.REACT_APP_MAP_API 
-
-// Geocode.setApiKey(apiKey);
-// Geocode.enableDebug();
+const toolsCatsData = require('../ToolsCategories.json')
+const apiKey = process.env.REACT_APP_MAP_API 
+console.log(apiKey);
+Geocode.setApiKey(apiKey);
+Geocode.enableDebug();
 
 
 
@@ -29,22 +31,22 @@ function Form (props) {
                         <div className="card-body">
                             <form onSubmit={props.onSubmit} className="row g-3">
                                 <div className="form-floating col-md-10">
-                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="streetAddress" placeholder="Street Address"/>
+                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="streetAddress" placeholder="Street Address" value={`${props.data.streetAddress}`}/>
                                     <label htmlFor="streetAdd">Street Address</label>
                                 </div>
 
                                 <div className="form-floating col-md-2">
-                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="zipCode" placeholder="Zip Code"/>
+                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="zipCode" placeholder="Zip Code" value={`${props.data.zip}`}/>
                                     <label htmlFor="zipCode">Zip Code</label>
                                 </div>
 
                                 <div className="form-floating col-md-4">
-                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="state" placeholder="State"/>
+                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="state" placeholder="State" value={`${props.data.state}`}/>
                                     <label htmlFor="state">State</label>
                                 </div>
 
                                 <div className="form-floating col-md-4">
-                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="city" placeholder="city"/>
+                                    <input type="text" className={`form-control ${CreatePostCSS.formInput}`} id="city" placeholder="city" value={`${props.data.city}`}/>
                                     <label htmlFor="city">City</label>
                                 </div>
 
@@ -71,12 +73,8 @@ function Form (props) {
                                     <div className={`form-group mt-4`}>
                                         <label htmlFor="catSelector"><u>Choose categories for the tool</u></label>
                                         <select className={`form-select mt-1 ${CreatePostCSS.formInput}`} multiple  size="2"  id="catSelector">
-                                            {/* <option defaultValue>Open this select menu</option> */}
-                                            <option value="one">One</option>
-                                            <option value="two">Two</option>
-                                            <option value="three">Three</option>
-                                            <option value="two">Two</option>
-                                            <option value="three">Three</option>
+                                            {[...props.toolsCats]}
+                                            
                                         </select>
                                         <p className="fs-6 lh-1 mt-1">Hold down Ctrl (windows) or Command (Mac) to select multiple options.</p>
                                     </div>
@@ -103,7 +101,6 @@ class CreatePost extends React.Component {
         super(props);
 
         this.state ={
-            isCancle : false,
             success : false,
             dataObj :  {    postTitle : " ",
                             city : " ",
@@ -119,86 +116,85 @@ class CreatePost extends React.Component {
         };
 
 
-    this.handleCancle = this.handleCancle.bind(this);
     this.handleSubmit= this.handleSubmit.bind(this);
     this.onLocationChange=this.onLocationChange.bind(this);
     }
 
-    // reverseGeoCoding(lat, lng){
-    //     Geocode.fromLatLng( lat , lng ).then(
-    //         response => {
-    //          const address = response.results[0].formatted_address,
-    //           addressArray =  response.results[0].address_components
-    //           console.table(addressArray)
-    //           console.log(address)
+    reverseGeoCoding(lat, lng){
+        Geocode.fromLatLng( lat , lng ).then(
+            response => {
+             const address = response.results[0].formatted_address,
+              addressArray =  response.results[0].address_components
+              console.table(addressArray)
+              console.log(address)
               
 
-    //         let city
-    //         let state
-    //         let zipCode
+            let city
+            let state
+            let zipCode
 
-    //         addressArray.forEach(type => {
+            addressArray.forEach(type => {
                 
-    //             if(type.types.includes("political") && city === undefined){
-    //             city = type.long_name;
-    //             }else if(type.types.includes("administrative_area_level_1") && state === undefined){
-    //             // console.log(type.long_name)
-    //             state = type.long_name;
-    //             }else if(type.types.includes("postal_code") && zipCode === undefined){
-    //             // console.log(type.long_name)
-    //             zipCode = type.long_name;
-    //             }
+                if(type.types.includes("political") && city === undefined){
+                city = type.long_name;
+                }else if(type.types.includes("administrative_area_level_1") && state === undefined){
+                // console.log(type.long_name)
+                state = type.long_name;
+                }else if(type.types.includes("postal_code") && zipCode === undefined){
+                // console.log(type.long_name)
+                zipCode = type.long_name;
+                }
                 
-    //             if(city !== undefined && state!== undefined && zipCode!== undefined){
-    //                 console.log(city)
-    //                 console.log(state)
-    //                 console.log(zipCode)
-    //                 this.setState(prevState => {
-    //                     let dataObj = { ...prevState.dataObj };
-    //                     dataObj.city = city;
-    //                     dataObj.state = state;
-    //                     dataObj.zip = zipCode;
-    //                     dataObj.lat = lat;
-    //                     dataObj.lng = lng;
-    //                     dataObj.streetAddress = address.split(",")[0];
+                if(city !== undefined && state!== undefined && zipCode!== undefined){
+                    console.log(city)
+                    console.log(state)
+                    console.log(zipCode)
+                    this.setState(prevState => {
+                        let dataObj = { ...prevState.dataObj };
+                        dataObj.city = city;
+                        dataObj.state = state;
+                        dataObj.zip = zipCode;
+                        dataObj.lat = lat;
+                        dataObj.lng = lng;
+                        dataObj.streetAddress = address.split(",")[0];
             
-    //                     return {dataObj}
-    //                 })
-    //             }
-    //         });
+                        return {dataObj}
+                    })
+                }
+            });
         
-    //         },
-    //         error => {
-    //          console.error(error);
-    //         }
-    //        );
-    // }
+            },
+            error => {
+             console.error(error);
+            }
+           );
+    }
 
-    // componentDidMount(){
-    //     // console.log(this.state.dataObj.user)
-    //     navigator.geolocation.getCurrentPosition((position) =>{
-    //         console.log("Latitude is :", position.coords.latitude);
-    //         console.log("Longitude is :", position.coords.longitude);
+    componentDidMount(){
+        // console.log(this.state.dataObj.user)
+        navigator.geolocation.getCurrentPosition((position) =>{
+            console.log("Latitude is :", position.coords.latitude);
+            console.log("Longitude is :", position.coords.longitude);
 
-    //         this.setState(prevState => {
-    //             let dataObj = { ...prevState.dataObj };
-    //             dataObj.lat = position.coords.latitude;
-    //             dataObj.lng = position.coords.longitude;
-    //             return {dataObj}
-    //         })
+            this.setState(prevState => {
+                let dataObj = { ...prevState.dataObj };
+                dataObj.lat = position.coords.latitude;
+                dataObj.lng = position.coords.longitude;
+                return {dataObj}
+            })
 
-    //         this.reverseGeoCoding(this.state.dataObj.lat , this.state.dataObj.lng);
+            this.reverseGeoCoding(this.state.dataObj.lat , this.state.dataObj.lng);
 
-    //       })
-    // }
+          })
+    }
 
     handleSubmit(e){
         e.preventDefault();
         let postTitle = e.target.postTitle.value;
         // let lat = e.target.lat.value;
-        let lat = 1231767612;
+        // let lat = 1231767612;
         // let lng = e.target.long.value;
-        let lng = 1237621371
+        // let lng = 1237621371
         let city = e.target.city.value;
         let state = e.target.state.value;
         let zipCode = e.target.zipCode.value;
@@ -225,8 +221,8 @@ class CreatePost extends React.Component {
                         this.setState(prevState => {
                             let dataObj = { ...prevState.dataObj };
                             dataObj.postTitle = postTitle;
-                            dataObj.lat = lat;
-                            dataObj.lng = lng;
+                            // dataObj.lat = lat;
+                            // dataObj.lng = lng;
                             dataObj.city = city;
                             dataObj.state = state;
                             dataObj.zip = zipCode;
@@ -268,34 +264,33 @@ class CreatePost extends React.Component {
         this.reverseGeoCoding(lat, lng)
     }
 
-    handleCancle(e){
-        e.preventDefault();
-        this.setState({
-            isCancle : true
-        })
-    }
 
     render(){
         if(this.state.success) return <Redirect to="/" />;
         if(this.state.isCancle) return  <Redirect to="/" />;
 
         let pos = this.state.dataObj
+
+        let toolsCats = toolsCatsData.toolsCategories
+        let toolsOptionsArr =[]
+
+        toolsCats.forEach(category =>{
+            toolsOptionsArr.push(<option value={category}>{category}</option>)
+        })
+
        return (
             <div >
-                {/* <div className={CreatePostCSS.container}>
-                    {pos.lat ? <Map position={pos} onLocationChange={this.onLocationChange}></Map> : <Loading/>}
-                </div> */}
-                {/* <div>
-                    {pos.lat ? <Form OnCancle={this.handleCancle} onSubmit={this.handleSubmit} data={pos}/> : <Loading/>}
-                </div> */}
                 <div>
-                    Select tool location
+                    Select tool location by searching a location or dragging the marker.
                 </div>
-                <div className={`${CreatePostCSS.dummyMap} `}>
-                    Dummy Map Component
+                
+                <div>
+                    {pos.lat ? <MapComp position={pos} onLocationChange={this.onLocationChange}></MapComp> : <Loading/>}
                 </div>
-
-                <Form onSubmit={this.handleSubmit}/>
+                
+                <div>
+                    <Form onSubmit={this.handleSubmit} data={pos} toolsCats={toolsOptionsArr}/>
+                </div>
             </div>
        );
         

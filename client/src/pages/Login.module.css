@@ -26,6 +26,10 @@
         height: 40px;
     }
 
+    .loginButton:hover{
+        color: rgb(2, 141, 2) !important;
+    }
+
     .links{
         color: white;
         }

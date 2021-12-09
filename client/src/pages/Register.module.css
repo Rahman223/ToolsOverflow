@@ -9,12 +9,16 @@
 
 .profilePic:hover{
 cursor: pointer;
-border-color: #12df1c;
+border-color: rgb(2, 141, 2);
 transform: scale(1.05);
 }
 
 .profileDiv{
     color: rgb(0, 0, 0);
+}
+
+.picMessage {
+    color : rgb(2, 141, 2);
 }
 
 .card{
@@ -38,4 +42,8 @@ transform: scale(1.05);
     background-color: black;
     width: 160px;
     height: 40px;
+}
+
+.registerButton:hover{
+    color: rgb(2, 141, 2) !important;
 }

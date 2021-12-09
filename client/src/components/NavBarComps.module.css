@@ -1,0 +1,16 @@
+.profile{
+    object-fit: cover;
+    width: 55px;
+    height: 55px; 
+    border-radius: 50%;
+    border-color: black;
+    border-style: solid;
+    margin-left: 10px;
+    box-shadow: inset 0 0 10px #000000;
+    margin-right: 10px;
+}
+
+.profile:hover {
+    cursor: pointer;
+    transform: scale(1.2) rotate(30deg);
+}

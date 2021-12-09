@@ -21,3 +21,71 @@
   color: #09d3ac;
 }
 */
+
+/* .container-app{ */
+  /* min-height: 100vh; will cover the 100% of viewport */
+  /* position: relative; */
+  /* padding-bottom: 90px; height of your footer */
+  /* min-width:100vw;
+} */
+
+/* .navbar{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+} */
+
+/* .navbar { */
+  /* background: linear-gradient(90deg, rgb(165, 49, 14) 0%, rgb(98, 150, 15) 100%) ; */
+  /* background-image: url(./navBarBg3.jpg); */
+  /* height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+} */
+
+/* .nav-item {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+.nav-links {
+  color: white;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+} */
+
+/* .nav-links:hover { */
+  /* color: #750eeb !important; */
+  /* transform: scale(1.005); */
+  /* border-radius: 4px;
+  transition: all 0.4s ease-out;
+} */
+
+.navbar{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.item {
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+.item:hover {
+  color: rgb(2, 141, 2) !important;
+  transform: scale(1.005);
+  transition: all 0.4s ease-out;
+}
+
+.home{
+  font-size: x-large;
+}
+
+.link {
+  text-align: center;
+  padding: 15px 0;
+}
