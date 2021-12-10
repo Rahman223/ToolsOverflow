@@ -132,7 +132,8 @@ class BorrowingPostComponent extends React.Component{
                             <p className={`ms-2`}>{this.props.post.postDesc}</p>
                         </div> 
                     </div>
-                    <a href=""><button type="button" className={`btn ${PostCSS.button} mt-3`}>Location on Map</button></a>
+                    <a target="_blank" href={`https://www.google.com/maps/search/?api=1&query=${this.props.location.lat},${this.props.location.lng}`} ><button type="button" className={`btn ${PostCSS.button} mt-2 mb-2`}>Location on Map</button></a>
+
                 </div>
             </div>
         </div>
