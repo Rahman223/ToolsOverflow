@@ -152,8 +152,12 @@ router.get('/categories', async (req, res)=> {
     for(let i=0; i<catNames.length; i++){
       let cat = await Category.findOne({where: {name : catNames[i]}})
       if(cat){
-        let posts = await cat.getPosts();
-        console.log(posts)
+        let posts = await cat.getPosts({
+          where: {
+            postStatus: "Listed"
+          }
+        });
+        // console.log(posts)
         for(let j=0; j<posts.length; j++){
           map.set(posts[j].id, posts[j]);
         }
@@ -167,7 +171,7 @@ router.get('/categories', async (req, res)=> {
     let postMedLocArr = []
 
     for(const post of map.values()){
-      console.log(post)
+      // console.log(post)
       let media = await post.getMedia()
       let location = await post.getLocation()
       let user = await post.getUser()
