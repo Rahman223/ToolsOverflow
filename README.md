@@ -1,4 +1,4 @@
-# Click <a href="https://tools-overflow.herokuapp.com/" target="_blank">Here</a> to see the hosted Web App.
+# Click <a href="https://tools-overflow.herokuapp.com/" rel="noreferrer" target="_blank">Here</a> to see the hosted Web App.
 
 # Project Starter
 A starter repo for building CUNY Tech Prep projects with React, Express.js, and Sequelize.js
